@@ -1,0 +1,48 @@
+<div class="container vw-100 vh-80">
+  <h2>Busqueda de Infracciones</h2>
+  <div class="row">
+    <div class="col-2">
+      <label for="exampleFormControlInput1" class="form-label">Documento</label>
+      <input type="text" class="form-control" id="documento" placeholder="11111111" (change)="handleChange($event)">
+    </div>
+    <div class="col-2 d-flex align-items-end">
+      <button type="button" class="btn btn-primary" (click)="handleClick($event)">Buscar</button>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <small class="text-danger" *ngIf="error">{{mensajeError}}</small>
+      </div>
+    </div>
+  </div>
+  <div class="row m-0 w-100 h-100">
+    <div class="col-12 d-flex justify-content-center align-items-start mt-4">
+      <h2 *ngIf="!result">No se encontraron resultados.</h2>
+        <table *ngIf="result" class="table ">
+          <thead>
+            <tr>
+              <th scope="col">Codigo</th>
+              <th scope="col">Documento</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Infraccion#</th>
+              <th scope="col">Importe</th>
+              <th scope="col">Fecha Pago</th>
+              <th scope="col">Accion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let infraccion of resultInfracciones">
+              <th scope="row">{{infraccion.id}}</th>
+              <td>{{infraccion.documento}}</td>
+              <td>{{ToShortDateString(infraccion.fecha)}}</td>
+              <td>{{infraccion.codigo}}</td>
+              <td>${{infraccion.importe}}</td>
+              <td>{{ToShortDateString(infraccion.fechaPago)}}</td>
+              <td>
+                <button *ngIf="infraccion.fechaPago === null" type="button" class="btn btn-secondary" (click)="handleClickPagar($event, infraccion.id)">Pagar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>
